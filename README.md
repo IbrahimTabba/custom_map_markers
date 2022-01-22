@@ -3,7 +3,7 @@
 Not only "*Everything is a widget*" also "*Everywhere is a widget*".  
 `custom_map_marker` is a package that turns runtime widgets into map marker icons.
 
-![flutter widgets map marker](https://github.com/IbrahimTabba/custom_map_markers/blob/master/example/images/custom-map-markers.png?raw=true)
+<img src="https://github.com/IbrahimTabba/custom_map_markers/blob/master/example/images/custom-map-markers.png?raw=true" width="256">
 
 ## Features
 
