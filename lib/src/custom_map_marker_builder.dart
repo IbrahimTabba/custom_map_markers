@@ -45,17 +45,17 @@ class CustomMapMarkerBuilder extends StatelessWidget {
     return Stack(
       children: [
         ...List.generate(
-              markerWidgets.length,
-              (index) => Positioned(
-                    left: -MediaQuery.of(context).size.width,
-                    child: CustomMarker(
-                      child: markerWidgets[index],
-                      screenshotDelay: screenshotDelay,
-                      onImageCaptured: (data) {
-                        controller.updateRenderedImage(index, data);
-                      },
-                    ),
-                  )),
+            markerWidgets.length,
+            (index) => Positioned(
+                  left: -MediaQuery.of(context).size.width,
+                  child: CustomMarker(
+                    child: markerWidgets[index],
+                    screenshotDelay: screenshotDelay,
+                    onImageCaptured: (data) {
+                      controller.updateRenderedImage(index, data);
+                    },
+                  ),
+                )),
         ValueListenableBuilder(
             valueListenable: controller,
             builder:
@@ -132,7 +132,8 @@ class _MarkersController extends ValueNotifier<List<Uint8List?>> {
 
   late final List<Uint8List?> renderedWidgets;
 
-  _MarkersController({required List<Uint8List?> value, required this.childCount})
+  _MarkersController(
+      {required List<Uint8List?> value, required this.childCount})
       : super(value) {
     renderedWidgets = List<Uint8List?>.filled(childCount, null);
   }

@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:collection/collection.dart';
@@ -57,7 +58,7 @@ class _CustomMarkerState extends State<CustomMarker> {
     try {
       final RenderRepaintBoundary? boundary =
           iconKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
-      if (boundary?.debugNeedsPaint ?? false) {
+      if (kDebugMode && (boundary?.debugNeedsPaint ?? false)) {
         await Future.delayed(const Duration(milliseconds: 200));
         return _capturePng(iconKey);
       }
