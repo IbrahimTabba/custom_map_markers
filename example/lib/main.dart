@@ -38,40 +38,57 @@ class _MyHomePageState extends State<MyHomePage> {
     LatLng(37.42796133580664, -122.075749655962),
   ];
 
+  late List<MarkerData> _customMarkers;
+
+  @override
+  void initState() {
+    super.initState();
+    _customMarkers = [
+      MarkerData(
+          marker:
+              Marker(markerId: const MarkerId('id-1'), position: locations[0]),
+          child: _customMarker3('Everywhere\nis a Widgets', Colors.blue)),
+      MarkerData(
+          marker:
+              Marker(markerId: const MarkerId('id-5'), position: locations[4]),
+          child: _customMarker('A', Colors.black)),
+      MarkerData(
+          marker:
+              Marker(markerId: const MarkerId('id-2'), position: locations[1]),
+          child: _customMarker('B', Colors.red)),
+      MarkerData(
+          marker:
+              Marker(markerId: const MarkerId('id-3'), position: locations[2]),
+          child: _customMarker('C', Colors.green)),
+      MarkerData(
+          marker:
+              Marker(markerId: const MarkerId('id-4'), position: locations[3]),
+          child: _customMarker2('D', Colors.purple)),
+      MarkerData(
+          marker:
+              Marker(markerId: const MarkerId('id-5'), position: locations[4]),
+          child: _customMarker('A', Colors.blue)),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            if (_customMarkers.isNotEmpty) {
+              _customMarkers.removeLast();
+            }
+          });
+        },
+      ),
       body: CustomGoogleMapMarkerBuilder(
         //screenshotDelay: const Duration(seconds: 4),
-        customMarkers: [
-          MarkerData(
-              marker: Marker(
-                  markerId: const MarkerId('id-1'), position: locations[0]),
-              child: _customMarker3('Everywhere\nis a Widgets', Colors.blue)),
-          MarkerData(
-              marker: Marker(
-                  markerId: const MarkerId('id-5'), position: locations[4]),
-              child: _customMarker('A', Colors.black)),
-          MarkerData(
-              marker: Marker(
-                  markerId: const MarkerId('id-2'), position: locations[1]),
-              child: _customMarker('B', Colors.red)),
-          MarkerData(
-              marker: Marker(
-                  markerId: const MarkerId('id-3'), position: locations[2]),
-              child: _customMarker('C', Colors.green)),
-          MarkerData(
-              marker: Marker(
-                  markerId: const MarkerId('id-4'), position: locations[3]),
-              child: _customMarker2('D', Colors.purple)),
-          MarkerData(
-              marker: Marker(
-                  markerId: const MarkerId('id-5'), position: locations[4]),
-              child: _customMarker('A', Colors.blue)),
-        ],
+        customMarkers: _customMarkers,
         builder: (BuildContext context, Set<Marker>? markers) {
           if (markers == null) {
             return const Center(child: CircularProgressIndicator());
@@ -82,9 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
               zoom: 14.4746,
             ),
             markers: markers,
-            onMapCreated: (GoogleMapController controller) {
-
-            },
+            onMapCreated: (GoogleMapController controller) {},
           );
         },
       ),
@@ -120,13 +135,10 @@ class _MyHomePageState extends State<MyHomePage> {
       height: 30,
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        border: Border.all(color: color , width: 2),
-          color: Colors.white, borderRadius: BorderRadius.circular(15),boxShadow: [
-            BoxShadow(
-              color: color,
-              blurRadius: 6
-            )
-      ]),
+          border: Border.all(color: color, width: 2),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [BoxShadow(color: color, blurRadius: 6)]),
       child: Center(child: Text(symbol)),
     );
   }
@@ -136,14 +148,15 @@ class _MyHomePageState extends State<MyHomePage> {
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-          border: Border.all(color: color , width: 2),
-          color: Colors.white, borderRadius: BorderRadius.circular(4),boxShadow: [
-        BoxShadow(
-            color: color,
-            blurRadius: 6
-        )
-      ]),
-      child: Center(child: Text(text , textAlign: TextAlign.center,)),
+          border: Border.all(color: color, width: 2),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+          boxShadow: [BoxShadow(color: color, blurRadius: 6)]),
+      child: Center(
+          child: Text(
+        text,
+        textAlign: TextAlign.center,
+      )),
     );
   }
 }

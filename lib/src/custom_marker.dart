@@ -45,6 +45,8 @@ class _CustomMarkerState extends State<CustomMarker> {
         if (_lastImage == null || !eq(_lastImage!, _image)) {
           _lastImage = _image;
           widget.onImageCaptured?.call(_image);
+        } else {
+          widget.onImageCaptured?.call(_lastImage);
         }
       });
     });

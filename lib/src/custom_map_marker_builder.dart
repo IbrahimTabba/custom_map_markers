@@ -49,6 +49,7 @@ class CustomMapMarkerBuilder extends StatelessWidget {
             (index) => Positioned(
                   left: -MediaQuery.of(context).size.width,
                   child: CustomMarker(
+                    key: ObjectKey(markerWidgets[index]),
                     child: markerWidgets[index],
                     screenshotDelay: screenshotDelay,
                     onImageCaptured: (data) {
