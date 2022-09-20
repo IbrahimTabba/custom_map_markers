@@ -70,7 +70,7 @@ class CustomMapMarkerBuilder extends StatelessWidget {
 
 /// A widget convert list of widgets into custom google maps marker icons.
 
-class CustomGoogleMapMarkerBuilder extends StatelessWidget {
+class CustomGoogleMapMarkerBuilder extends StatefulWidget {
   /// List of custom [MarkerData] each item is a google maps [Marker] and
   /// custom widget thar are going to be used as an icon for this marker.
   final List<MarkerData> customMarkers;
@@ -87,9 +87,9 @@ class CustomGoogleMapMarkerBuilder extends StatelessWidget {
   /// Widget builder that carries [imagesData] which is `null` when marker
   /// images are not ready yet or list of google maps [Marker] when custom
   /// markers are ready.
-  final Widget Function(BuildContext, Set<Marker>? markers) builder;
+  final Widget Function(BuildContext, Set<Marker> markers) builder;
 
-  const CustomGoogleMapMarkerBuilder(
+  CustomGoogleMapMarkerBuilder(
       {Key? key,
       required this.customMarkers,
       required this.builder,
@@ -97,20 +97,38 @@ class CustomGoogleMapMarkerBuilder extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<CustomGoogleMapMarkerBuilder> createState() =>
+      _CustomGoogleMapMarkerBuilderState();
+}
+
+class _CustomGoogleMapMarkerBuilderState
+    extends State<CustomGoogleMapMarkerBuilder> {
+  Set<Marker> lastMarkers = {};
+
+  @override
   Widget build(BuildContext context) {
     return CustomMapMarkerBuilder(
-      screenshotDelay: screenshotDelay,
-      markerWidgets:
-          customMarkers.map((customMarker) => customMarker.child).toList(),
+      screenshotDelay: widget.screenshotDelay,
+      markerWidgets: widget.customMarkers
+          .map((customMarker) => customMarker.child)
+          .toList(),
       builder: (BuildContext context, List<Uint8List>? customMarkerImagesData) {
-        return builder(
+        if (customMarkerImagesData != null) {
+          lastMarkers = widget.customMarkers
+              .map((e) => e.marker.copyWith(
+                  iconParam: BitmapDescriptor.fromBytes(
+                      customMarkerImagesData[widget.customMarkers.indexOf(e)])))
+              .toSet();
+        }
+        return widget.builder(
             context,
             customMarkerImagesData == null
-                ? null
-                : customMarkers
+                ? lastMarkers
+                : widget.customMarkers
                     .map((e) => e.marker.copyWith(
                         iconParam: BitmapDescriptor.fromBytes(
-                            customMarkerImagesData[customMarkers.indexOf(e)])))
+                            customMarkerImagesData![
+                                widget.customMarkers.indexOf(e)])))
                     .toSet());
       },
     );
